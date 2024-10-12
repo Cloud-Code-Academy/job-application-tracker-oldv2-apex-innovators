@@ -1,3 +1,3 @@
-trigger JobApplicationTrigger on SOBJECT (before insert) {
+trigger JobApplicationTrigger on Job_Application__c (after update) {
 
 }

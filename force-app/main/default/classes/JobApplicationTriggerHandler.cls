@@ -10,4 +10,8 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
         this.oldJobAppList = (List<Job_Application__c>) Trigger.old;
         this.oldJobAppMap = (Map<Id, Job_Application__c>) Trigger.oldMap;
     }
+
+    public override void afterUpdate() {
+        JobApplicationHelper.processJobApplications(newJobAppList);
+    }
 }
