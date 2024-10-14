@@ -2,10 +2,14 @@ public with sharing class TaskManager {
     public static void createTasksForApplication (List<Task> tasks) {
         try {
             if (!tasks.isEmpty()) {
-                insert tasks;
+                if (Schema.SObjectType.Task.isCreateable()) {
+                    insert tasks;
+                } else {
+                    System.debug('User does not have permission to create Task records.');
+                }   
             }         
         } catch (DmlException e) {
-            System.debug('Error creating tasks: ' + e.getMessage());
+            System.debug('Error creating tasks: ' + e.getMessage() + ' | Tasks: ' + tasks);
         }
     }
 

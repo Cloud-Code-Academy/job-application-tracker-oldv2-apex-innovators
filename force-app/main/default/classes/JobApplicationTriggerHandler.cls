@@ -12,17 +12,6 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
     }
 
     public override void afterUpdate() {
-        List<Job_Application__c> changedJobApplications = new List<Job_Application__c>();
-
-        for (Job_Application__c application : newJobAppList) {
-            Job_Application__c oldApp = oldJobAppMap.get(application.Id);
-            if (application.Job_Application_Status__c != oldApp.Job_Application_Status__c) {
-                changedJobApplications.add(application);      
-            }
-        }
-
-        if(!changedJobApplications.isEmpty()) {
-            JobApplicationHelper.processJobApplications(changedJobApplications); 
-        }
+        JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap); 
     }     
 }
