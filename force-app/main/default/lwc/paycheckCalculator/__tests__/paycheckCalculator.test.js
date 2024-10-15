@@ -1,4 +1,5 @@
-import { createElement } from 'lwc';
+import { createElement } from '@lwc/engine-dom';
+
 import PaycheckCalculator from 'c/paycheckCalculator';
 
 describe('c-paycheck-calculator', () => {
