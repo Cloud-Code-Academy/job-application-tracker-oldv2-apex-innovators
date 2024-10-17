@@ -1,0 +1,36 @@
+<template>
+    <div class="custom-card">
+        <lightning-card title="Salesforce Jobs" icon-name="action:description">
+            <h1 slot="title" class="custom-title">Salesforce Jobs</h1>
+        
+            <!-- Search Form -->
+            <div class="slds-m-around_medium">
+                <lightning-input label="Keywords" placeholder="Enter job keywords..." value={keywords} onchange={handleKeywordChange}></lightning-input>
+                <lightning-input label="Location" placeholder="Enter location..." value={location} onchange={handleLocationChange}></lightning-input>
+                
+                <!-- Search and Reset Buttons -->
+                <lightning-button label="Search Jobs" variant="brand" onclick={handleSearch}></lightning-button>
+                <lightning-button label="Reset" variant="neutral" onclick={handleReset}></lightning-button>
+            </div>
+
+            <!-- Job Results Table -->
+            <template if:true={hasJobs}>
+                <div class="slds-scrollable_y" style="height: 300px;">
+                    <lightning-datatable
+                        data={jobs}
+                        hide-checkbox-column="true"
+                        columns={columns}
+                        key-field="id">
+                    </lightning-datatable>
+                </div>
+            </template>
+
+            <!-- No Jobs Found Message -->
+            <template if:false={hasJobs}>
+                <div class="slds-m-around_medium">
+                    <p>No jobs found. Try searching with different keywords or location.</p>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template>
