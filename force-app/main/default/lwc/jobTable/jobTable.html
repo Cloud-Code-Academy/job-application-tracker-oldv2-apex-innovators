@@ -1,0 +1,18 @@
+<template>
+    <lightning-datatable
+        data={paginatedJobs}
+        columns={columns}
+        key-field="id"
+        onsort={handleSort}
+        sorted-by={sortedBy}
+        sorted-direction={sortedDirection}
+        hide-checkbox-column="true">
+    </lightning-datatable>
+
+    <!-- Pagination Controls -->
+    <div class="slds-var-p-top_small slds-align_absolute-center">
+        <lightning-button label="Previous" onclick={handlePreviousPage} disabled={isPreviousDisabled}></lightning-button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <lightning-button label="Next" onclick={handleNextPage} disabled={isNextDisabled}></lightning-button>
+    </div>
+</template>
