@@ -13,5 +13,9 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
 
     public override void afterUpdate() {
         JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap); 
-    }     
+    }
+    
+    public override void afterInsert() {
+        JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap);
+    }
 }

@@ -71,53 +71,56 @@ public virtual class TriggerHandler {
           when AFTER_UPDATE {
           this.afterUpdate();
           }
-          when AFTER_DELETE {
-          this.afterDelete();
-          }
-          when AFTER_UNDELETE {
-          this.afterUndelete();
-          }
+          // Uncomment later when in use
+          // when AFTER_DELETE {
+          // this.afterDelete();
+          // }
+          // when AFTER_UNDELETE {
+          // this.afterUndelete();
+          // }
       }
     }
     
     // Set the maximum number of times the handler can run
-    public void setMaxLoopCount(Integer max) {
-      String handlerName = getHandlerName();
-      if(!TriggerHandler.loopCountMap.containsKey(handlerName)) {
-        TriggerHandler.loopCountMap.put(handlerName, new LoopCount(max));
-      } else {
-        TriggerHandler.loopCountMap.get(handlerName).setMax(max);
-      }
-    }
+    // Uncomment later when needing to use
+    // public void setMaxLoopCount(Integer max) {
+    //   String handlerName = getHandlerName();
+    //   if(!TriggerHandler.loopCountMap.containsKey(handlerName)) {
+    //     TriggerHandler.loopCountMap.put(handlerName, new LoopCount(max));
+    //   } else {
+    //     TriggerHandler.loopCountMap.get(handlerName).setMax(max);
+    //   }
+    // }
     
     // Clear the maximum loop count for the handler
-    public void clearMaxLoopCount() {
-      this.setMaxLoopCount(-1);
-    }
+    // Uncomment later when needing to use
+    // public void clearMaxLoopCount() {
+    //   this.setMaxLoopCount(-1);
+    // }
     
     /***************************************
      * public static methods
      ***************************************/
-    
-    // Bypass a particular handler from execution
-    public static void bypass(String handlerName) {
-        TriggerHandler.bypassedHandlers.add(handlerName);
-    }
+    // Uncomment later
+    // // Bypass a particular handler from execution
+    // public static void bypass(String handlerName) {
+    //     TriggerHandler.bypassedHandlers.add(handlerName);
+    // }
 
-    // Allow a previously bypassed handler to execute
-    public static void clearBypass(String handlerName) {
-        TriggerHandler.bypassedHandlers.remove(handlerName);
-    }
+    // // Allow a previously bypassed handler to execute
+    // public static void clearBypass(String handlerName) {
+    //     TriggerHandler.bypassedHandlers.remove(handlerName);
+    // }
 
-    // Check if a handler is bypassed
-    public static Boolean isBypassed(String handlerName) {
-        return TriggerHandler.bypassedHandlers.contains(handlerName);
-    }
+    // // Check if a handler is bypassed
+    // public static Boolean isBypassed(String handlerName) {
+    //     return TriggerHandler.bypassedHandlers.contains(handlerName);
+    // }
 
-    // Clear all bypassed handlers
-    public static void clearAllBypasses() {
-        TriggerHandler.bypassedHandlers.clear();
-    }
+    // // Clear all bypassed handlers
+    // public static void clearAllBypasses() {
+    //     TriggerHandler.bypassedHandlers.clear();
+    // }
     
     /***************************************
      * private instancemethods
