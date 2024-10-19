@@ -13,15 +13,15 @@ public with sharing class TaskManager {
         }
     }
 
-    public static Task prepareTask(Job_Application__c app, String subject, String priority, String description) {
+    public static Task prepareTask(Job_Application__c app, String type, String priority, String subject) {
         Task newTask = new Task(
             Subject = subject,
             ActivityDate = Date.today().addDays(7),
             Priority = priority,
             OwnerId = app.OwnerId,
             WhatId = app.Id,
-            Status = 'Not Started',
-            Description = description
+            Application_Status_Snapshot__c = app.Job_Application_Status__c,
+            Type = type
         );
         
         return newTask;

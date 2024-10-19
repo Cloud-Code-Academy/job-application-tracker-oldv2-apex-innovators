@@ -16,7 +16,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -40,11 +40,11 @@ private class JobApplicationHelperTest {
             Boolean check3 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Research' && task.Priority == 'Normal' && task.Description == 'Check if the job description aligns with your interests and values') {
+                if (task.Type == 'Research' && task.Priority == 'Normal' && task.Subject == 'Check if the job description aligns with your interests and values') {
                     check1 = true;
-                } else if (task.Subject == 'Research' && task.Priority == 'Normal' && task.Description == 'Review the highlighted skills to see if the role is a good fit') {
+                } else if (task.Type == 'Research' && task.Priority == 'Normal' && task.Subject == 'Review the highlighted skills to see if the role is a good fit') {
                     check2 = true;
-                } else if (task.Subject == 'Research' && task.Priority == 'Low' && task.Description == 'Research the company or role and mark your excitement level') {
+                } else if (task.Type == 'Research' && task.Priority == 'Low' && task.Subject == 'Research the company or role and mark your excitement level') {
                     check3 = true;
                 }
             }
@@ -76,8 +76,8 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
-
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
+        
         // Assertions
         // Ensure that each job application has three related tasks
         Map<Id, List<Task>> tasksByJobApp = new Map<Id, List<Task>>();
@@ -94,14 +94,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(8, tasksForApp.size(), 'There should be 8 tasks created for each job application after updating to "Applying" status');
             
-             // Separate tasks into "Saved" and "Applying" groups based on their descriptions
+             // Separate tasks into "Saved" and "Applying" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer applyingTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -124,15 +124,15 @@ private class JobApplicationHelperTest {
             Boolean check5 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Networking' && task.Priority == 'High' && task.Description == 'Find and research someone who works at the company and add them as a contact') {
+                if (task.Type == 'Networking' && task.Priority == 'High' && task.Subject == 'Find and research someone who works at the company and add them as a contact') {
                     check1 = true;
-                } else if (task.Subject == 'Networking' && task.Priority == 'High' && task.Description == 'Set up an informational interview to learn more about the role/company') {
+                } else if (task.Type == 'Networking' && task.Priority == 'High' && task.Subject == 'Set up an informational interview to learn more about the role/company') {
                     check2 = true;
-                } else if (task.Subject == 'Networking' && task.Priority == 'High' && task.Description == 'Identify potential referrals to help get your application on the top of the pile') {
+                } else if (task.Type == 'Networking' && task.Priority == 'High' && task.Subject == 'Identify potential referrals to help get your application on the top of the pile') {
                     check3 = true;
-                } else if (task.Subject == 'Application Process' && task.Priority == 'Normal' && task.Description == 'Customize your work achievements using the job description keywords') {
+                } else if (task.Type == 'Application Process' && task.Priority == 'Normal' && task.Subject == 'Customize your work achievements using the job description keywords') {
                     check4 = true;
-                } else if (task.Subject == 'Application Process' && task.Priority == 'High' && task.Description == 'Submit your application on the company website if possible') {
+                } else if (task.Type == 'Application Process' && task.Priority == 'High' && task.Subject == 'Submit your application on the company website if possible') {
                     check5 = true;
                 }
             }
@@ -166,7 +166,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -184,14 +184,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(7, tasksForApp.size(), 'There should be 7 tasks created for each job application after updating to "Applied" status');
             
-             // Separate tasks into "Saved" and "Applying" groups based on their descriptions
+             // Separate tasks into "Saved" and "Applying" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer appliedTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -213,13 +213,13 @@ private class JobApplicationHelperTest {
             Boolean check4 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Application Process' && task.Priority == 'High' && task.Description == 'Reach out to the hiring manager or recruiter') {
+                if (task.Type == 'Application Process' && task.Priority == 'High' && task.Subject == 'Reach out to the hiring manager or recruiter') {
                     check1 = true;
-                } else if (task.Subject == 'Application Process' && task.Priority == 'Normal' && task.Description == 'Follow up on your application via email weekly') {
+                } else if (task.Type == 'Application Process' && task.Priority == 'Normal' && task.Subject == 'Follow up on your application via email weekly') {
                     check2 = true;
-                } else if (task.Subject == 'Research' && task.Priority == 'Low' && task.Description == 'Continue identifying and saving similar job opportunities') {
+                } else if (task.Type == 'Research' && task.Priority == 'Low' && task.Subject == 'Continue identifying and saving similar job opportunities') {
                     check3 = true;
-                } else if (task.Subject == 'Networking' && task.Priority == 'Normal' && task.Description == 'Set up weekly networking calls to explore similar companies/roles') {
+                } else if (task.Type == 'Networking' && task.Priority == 'Normal' && task.Subject == 'Set up weekly networking calls to explore similar companies/roles') {
                     check4 = true;
                 }
             }
@@ -252,7 +252,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -270,14 +270,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(8, tasksForApp.size(), 'There should be 8 tasks created for each job application after updating to "Interviewing" status');
             
-             // Separate tasks into "Saved" and "Interviewing" groups based on their descriptions
+             // Separate tasks into "Saved" and "Interviewing" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer interviewingTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -300,15 +300,15 @@ private class JobApplicationHelperTest {
             Boolean check5 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Interview Preparation' && task.Priority == 'High' && task.Description == 'Prepare your blurb or “tell me about yourself” response') {
+                if (task.Type == 'Interview Preparation' && task.Priority == 'High' && task.Subject == 'Prepare your blurb or “tell me about yourself” response') {
                     check1 = true;
-                } else if (task.Subject == 'Interview Preparation' && task.Priority == 'Normal' && task.Description == 'Practice answering behavioral interview questions') {
+                } else if (task.Type == 'Interview Preparation' && task.Priority == 'Normal' && task.Subject == 'Practice answering behavioral interview questions') {
                     check2 = true;
-                } else if (task.Subject == 'Interview Preparation' && task.Priority == 'Normal' && task.Description == 'Research the company and your interviewers') {
+                } else if (task.Type == 'Interview Preparation' && task.Priority == 'Normal' && task.Subject == 'Research the company and your interviewers') {
                     check3 = true;
-                } else if (task.Subject == 'Interview Preparation' && task.Priority == 'High' && task.Description == 'Set up your virtual interview space and test your tech') {
+                } else if (task.Type == 'Interview Preparation' && task.Priority == 'High' && task.Subject == 'Set up your virtual interview space and test your tech') {
                     check4 = true;
-                } else if (task.Subject == 'Interview Preparation' && task.Priority == 'High' && task.Description == 'Send thank you emails within 24 hours') {
+                } else if (task.Type == 'Interview Preparation' && task.Priority == 'High' && task.Subject == 'Send thank you emails within 24 hours') {
                     check4 = true;
                 }
             }
@@ -341,7 +341,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -359,14 +359,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(6, tasksForApp.size(), 'There should be 6 tasks created for each job application after updating to "Negotiating" status');
             
-             // Separate tasks into "Saved" and "Negotiating" groups based on their descriptions
+             // Separate tasks into "Saved" and "Negotiating" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer negotiatingTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -387,11 +387,11 @@ private class JobApplicationHelperTest {
             Boolean check3 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Offer Negotiation' && task.Priority == 'Normal' && task.Description == 'Research your market value and know your numbers') {
+                if (task.Type == 'Offer Negotiation' && task.Priority == 'Normal' && task.Subject == 'Research your market value and know your numbers') {
                     check1 = true;
-                } else if (task.Subject == 'Offer Negotiation' && task.Priority == 'Normal' && task.Description == 'Prepare your negotiation scripts') {
+                } else if (task.Type == 'Offer Negotiation' && task.Priority == 'Normal' && task.Subject == 'Prepare your negotiation scripts') {
                     check2 = true;
-                } else if (task.Subject == 'Offer Negotiation' && task.Priority == 'High' && task.Description == 'Evaluate your offer and decline or accept') {
+                } else if (task.Type == 'Offer Negotiation' && task.Priority == 'High' && task.Subject == 'Evaluate your offer and decline or accept') {
                     check3 = true;
                 }
             }
@@ -423,7 +423,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -441,14 +441,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(6, tasksForApp.size(), 'There should be 6 tasks created for each job application after updating to "Accepted" status');
             
-             // Separate tasks into "Saved" and "Accepted" groups based on their descriptions
+             // Separate tasks into "Saved" and "Accepted" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer acceptedTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -469,11 +469,11 @@ private class JobApplicationHelperTest {
             Boolean check3 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Onboarding & Reflection' && task.Priority == 'Normal' && task.Description == 'Plan your resignation if applicable') {
+                if (task.Type == 'Onboarding & Reflection' && task.Priority == 'Normal' && task.Subject == 'Plan your resignation if applicable') {
                     check1 = true;
-                } else if (task.Subject == 'Onboarding & Reflection' && task.Priority == 'Low' && task.Description == 'Take some time to relax and recharge') {
+                } else if (task.Type == 'Onboarding & Reflection' && task.Priority == 'Low' && task.Subject == 'Take some time to relax and recharge') {
                     check2 = true;
-                } else if (task.Subject == 'Onboarding & Reflection' && task.Priority == 'Normal' && task.Description == 'Prepare for your first day of onboarding') {
+                } else if (task.Type == 'Onboarding & Reflection' && task.Priority == 'Normal' && task.Subject == 'Prepare for your first day of onboarding') {
                     check3 = true;
                 }
             }
@@ -505,7 +505,7 @@ private class JobApplicationHelperTest {
         Test.stopTest();
 
         // Retrieve the created tasks
-        List<Task> createdTasks = [SELECT Id, Subject, ActivityDate, Priority, OwnerId, WhatId, Status, Description FROM Task];
+        List<Task> createdTasks = [SELECT Id, Type, ActivityDate, Priority, OwnerId, WhatId, Status, Subject FROM Task];
 
         // Assertions
         // Ensure that each job application has three related tasks
@@ -523,14 +523,14 @@ private class JobApplicationHelperTest {
             // Check that there are exactly 3 tasks for each job application with the "Saved" status
             Assert.areEqual(5, tasksForApp.size(), 'There should be 5 tasks created for each job application after updating to "Closed" status');
             
-             // Separate tasks into "Saved" and "Closed" groups based on their descriptions
+             // Separate tasks into "Saved" and "Closed" groups based on their task subjects
             Integer savedTaskCount = 0;
             Integer closedTaskCount = 0;
 
             for (Task task : tasksForApp) {
-                if (task.Description.contains('aligns with your interests') || 
-                    task.Description.contains('skills to see if the role is a good fit') || 
-                    task.Description.contains('mark your excitement level')) {
+                if (task.Subject.contains('aligns with your interests') || 
+                    task.Subject.contains('skills to see if the role is a good fit') || 
+                    task.Subject.contains('mark your excitement level')) {
                     // Count tasks from the "Saved" status
                     savedTaskCount++;
                 } else {
@@ -550,9 +550,9 @@ private class JobApplicationHelperTest {
             Boolean check2 = false;
 
             for (Task task : tasksForApp) {
-                if (task.Subject == 'Email' && task.Priority == 'Normal' && task.Description == 'Send a follow-up email thanking the interviewer and asking for feedback') {
+                if (task.Type == 'Email' && task.Priority == 'Normal' && task.Subject == 'Send a follow-up email thanking the interviewer and asking for feedback') {
                     check1 = true;
-                } else if (task.Subject == 'Onboarding & Reflection' && task.Priority == 'Low' && task.Description == 'Review your notes and reflect on areas of improvement') {
+                } else if (task.Type == 'Onboarding & Reflection' && task.Priority == 'Low' && task.Subject == 'Review your notes and reflect on areas of improvement') {
                     check2 = true;
                 }
             }
@@ -573,8 +573,7 @@ private class JobApplicationHelperTest {
         
         // Empty map for old job applications.
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>();
-        
-        // Act and Assert: Expect the exception to be thrown.
+
         // Act and Assert: Expect the exception to be thrown.
         Test.startTest();
         try {
