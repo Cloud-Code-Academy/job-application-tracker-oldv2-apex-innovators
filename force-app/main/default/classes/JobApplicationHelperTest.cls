@@ -64,11 +64,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Applying' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Applying';
-        }
-        update oldAppList;
+        // Use TestDataFactory to update job applications to 'Applying' status
+        TestDataFactory.updateJobApplicationStatus(oldAppList, 'Applying');
 
         // Call the method to be tested
         Test.startTest();
@@ -154,11 +151,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Applying' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Applied';
-        }
-        update oldAppList;
+        // Use TestDataFactory to update job applications to 'Applied' status
+        TestDataFactory.updateJobApplicationStatus(oldAppList, 'Applied');
 
         // Call the method to be tested
         Test.startTest();
@@ -240,11 +234,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Interviewing' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Interviewing';
-        }
-        update oldAppList;
+        // Use TestDataFactory to update job applications to 'Interviewing' status
+        TestDataFactory.updateJobApplicationStatus(oldAppList, 'Interviewing');
 
         // Call the method to be tested
         Test.startTest();
@@ -329,11 +320,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Negotiating' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Negotiating';
-        }
-        update oldAppList;
+       // Use TestDataFactory to update job applications to 'Negotiating' status
+       TestDataFactory.updateJobApplicationStatus(oldAppList, 'Negotiating');
 
         // Call the method to be tested
         Test.startTest();
@@ -411,11 +399,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Accepted' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Accepted';
-        }
-        update oldAppList;
+        // Use TestDataFactory to update job applications to 'Accepted' status
+       TestDataFactory.updateJobApplicationStatus(oldAppList, 'Accepted');
 
         // Call the method to be tested
         Test.startTest();
@@ -493,11 +478,8 @@ private class JobApplicationHelperTest {
         //Prepare map of old job applications with original status
         Map<Id, Job_Application__c> oldJobAppMap = new Map<Id, Job_Application__c>(oldAppList);
 
-        //Update job applications to 'Closed' status
-        for (Job_Application__c app : oldAppList) {
-            app.Job_Application_Status__c = 'Closed';
-        }
-        update oldAppList;
+        // Use TestDataFactory to update job applications to 'Closed' status
+       TestDataFactory.updateJobApplicationStatus(oldAppList, 'Closed');
 
         // Call the method to be tested
         Test.startTest();
