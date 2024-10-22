@@ -121,4 +121,41 @@ public with sharing class JobApplicationHelper {
             tasksToInsert.add(TaskManager.prepareTask(application, taskType, priority, subject));
         }
     }
+
+    public static void setPrimaryContact(List<Job_Application__c> jobAppList) {
+        Set<Id> accountIds = new Set<Id>();
+
+        for (Job_Application__c jobApp : jobAppList) {
+            if (jobApp.Primary_Contact__c == null && jobApp.Company_Name__c != null) {
+                accountIds.add(jobApp.Company_Name__c);
+            }
+        }
+
+        if (accountIds.isEmpty()) {
+            return;
+        }
+
+        Map<Id, Contact> accountIdToContact = new Map<Id, Contact>([
+            SELECT Id, FirstName, AccountId 
+            FROM Contact 
+            WHERE AccountId IN :accountIds
+            ORDER BY FirstName ASC // Or any other relevant field
+        ]);
+
+        Map<Id, Contact> contactsByAccount = new Map<Id, Contact>();
+        for (Contact contact : accountIdToContact.values()) {
+            if (!contactsByAccount.containsKey(contact.AccountId)) {
+                contactsByAccount.put(contact.AccountId, contact);
+            }
+        }
+
+        for (Job_Application__c jobApp : jobAppList) {
+            if (jobApp.Primary_Contact__c == null) {
+                Contact primaryContact = contactsByAccount.get(jobApp.Company_Name__c);
+                if (primaryContact != null) {
+                    jobApp.Primary_Contact__c = primaryContact.Id;
+                }
+            }
+        }
+    }
 }

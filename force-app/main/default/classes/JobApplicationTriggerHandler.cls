@@ -11,6 +11,10 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
         this.oldJobAppMap = (Map<Id, Job_Application__c>) Trigger.oldMap;
     }
 
+    public override void beforeInsert() {
+        JobApplicationHelper.setPrimaryContact(newJobAppList);
+    }
+
     public override void afterUpdate() {
         JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap); 
     }
