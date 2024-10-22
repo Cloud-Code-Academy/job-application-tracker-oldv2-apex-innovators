@@ -108,10 +108,7 @@ public with sharing class JobApplicationHelper {
             } 
         }
 
-        if (!taskstoInsert.isEmpty()) {
-            TaskManager.createTasksForApplication(tasksToInsert);
-        }
-
+        TaskManager.createTasksForApplication(tasksToInsert);
     }
 
     private static void addTaskIfNotExists(List<Task> tasksToInsert, Set<String> existingTaskSubjects, Job_Application__c application, String taskType, String priority, String subject) {
