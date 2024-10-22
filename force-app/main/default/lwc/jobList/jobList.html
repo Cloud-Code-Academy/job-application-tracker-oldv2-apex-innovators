@@ -1,13 +1,10 @@
 <template>
     <div class="custom-card">
         <lightning-card title="Salesforce Jobs" icon-name="action:description">
-            <!-- Custom Title with Icon -->
             <h1 slot="title" class="custom-title">Salesforce Jobs</h1>
-            
-            <!-- Search Form -->
+
             <div class="slds-m-around_medium">
                 <lightning-layout multiple-rows="true">
-                    <!-- Keyword Input -->
                     <lightning-layout-item size="1.5" padding="around-small">
                         <lightning-input 
                             label="Keywords" 
@@ -17,7 +14,6 @@
                         </lightning-input>
                     </lightning-layout-item>
 
-                    <!-- Location Input -->
                     <lightning-layout-item size="1.5" padding="around-small">
                         <lightning-input 
                             label="Location" 
@@ -28,20 +24,17 @@
                     </lightning-layout-item>
                 </lightning-layout>
 
-                <!-- Search and Reset Buttons -->
                 <div class="slds-m-top_small">
                     <lightning-button label="Search Jobs" variant="brand" onclick={handleSearch}></lightning-button>
                     <lightning-button label="Reset" variant="neutral" onclick={handleReset} class="slds-m-left_small"></lightning-button>
                 </div>
             </div>
 
-            <!-- Job Results Table -->
-            <template if:true={jobs.length}>
-                <c-job-table jobs={jobs}></c-job-table>
+            <template if:true={hasJobs}>
+                <c-job-table jobs={jobs} current-page={currentPage} total-pages={totalPages} onpagechange={handlePageChange}></c-job-table>
             </template>
 
-            <!-- No Jobs Found Message -->
-            <template if:false={jobs.length}>
+            <template if:false={hasJobs}>
                 <div class="slds-m-around_medium">
                     <p>No jobs found. Try searching with different keywords or location.</p>
                 </div>
@@ -49,4 +42,3 @@
         </lightning-card>
     </div>
 </template>
-

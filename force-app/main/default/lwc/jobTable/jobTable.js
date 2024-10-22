@@ -1,12 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 
 export default class JobTable extends LightningElement {
-    @api jobs = [];
-    @track currentPage = 1;
-    @track pageSize = 2;
-    @track sortedBy = '';
-    @track sortedDirection = 'asc';
-    @track paginatedJobs = [];
+    @api jobs = []; // Jobs passed from parent component
+    @api currentPage = 1; // Current page number passed from parent
+    @api totalPages = 1; // Total pages passed from parent
 
     columns = [
         { label: 'Job Title', fieldName: 'title', sortable: true },
@@ -17,81 +14,50 @@ export default class JobTable extends LightningElement {
         { label: 'Action', fieldName: 'action', type: 'button', typeAttributes: { label: 'Save', name: 'save', variant: 'neutral' } }
     ];
 
-    connectedCallback() {
-        this.updatePaginatedJobs();
-    }
-
-   
-    get jobs() {
-        return this._jobs || [];
-    }
-    set jobs(value) {
-        this._jobs = value;
-        this.updatePaginatedJobs();
-    }
-
-    get totalPages() {
-        return Math.ceil(this.jobs.length / this.pageSize);
-    }
-
+    // Getter for paginated jobs based on current page and page size
     get paginatedJobs() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = this.currentPage * this.pageSize;
-        return this.jobs.slice(start, end);
+        const start = (this.currentPage - 1) * 5; // Assuming 5 jobs per page
+        return this.jobs.slice(start, start + 5);
     }
 
-    updatePaginatedJobs() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = this.currentPage * this.pageSize;
-        this.paginatedJobs = this.jobs.slice(start, end);
-    }
-
-    // Getters for disabling the pagination buttons
+    // Disable the "Previous" button if on the first page
     get isPreviousDisabled() {
         return this.currentPage === 1;
     }
 
+    // Disable the "Next" button if on the last page
     get isNextDisabled() {
         return this.currentPage >= this.totalPages;
     }
 
+    // Example of emitting page change in child component
+handlePageChange(pageNumber) {
+    const pageChangeEvent = new CustomEvent('pagechange', {
+        detail: { pageNumber }
+    });
+    this.dispatchEvent(pageChangeEvent);
+}
+
+    // Navigate to the next page
     handleNextPage() {
         if (this.currentPage < this.totalPages) {
             this.currentPage += 1;
-            this.updatePaginatedJobs();
+            console.log('Navigating to next page:', this.currentPage);
+            this.dispatchEvent(new CustomEvent('pagechange', { detail: { pageNumber: this.currentPage }}));
         }
     }
 
+    // Navigate to the previous page
     handlePreviousPage() {
         if (this.currentPage > 1) {
             this.currentPage -= 1;
-            this.updatePaginatedJobs();
+            console.log('Navigating to previous page:', this.currentPage);
+            this.dispatchEvent(new CustomEvent('pagechange', { detail: { pageNumber: this.currentPage }}));
         }
     }
 
-    handleSort(event) {
-        const { fieldName: sortedBy, sortDirection } = event.detail;
-        this.sortedBy = sortedBy;
-        this.sortedDirection = sortDirection;
-        this.sortData(sortedBy, sortDirection);
-    }
-
-    sortData(field, direction) {
-        const sortedJobs = [...this.jobs];
-        sortedJobs.sort((a, b) => {
-            let aValue = a[field];
-            let bValue = b[field];
-    
-            if (field === 'salary') {
-                aValue = parseFloat(aValue.replace(/[^0-9.-]+/g, ""));
-                bValue = parseFloat(bValue.replace(/[^0-9.-]+/g, ""));
-            }
-    
-            const reverse = direction === 'asc' ? 1 : -1;
-            return aValue > bValue ? reverse : aValue < bValue ? -reverse : 0;
-        });
-    
-        this._jobs = sortedJobs;
-        this.updatePaginatedJobs();
+    // Log the jobs passed from the parent component
+    connectedCallback() {
+        console.log('Jobs passed to JobTable:', this.jobs);
     }
 }
