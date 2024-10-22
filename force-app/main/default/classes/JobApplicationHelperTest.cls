@@ -2,7 +2,7 @@
 private class JobApplicationHelperTest {
     @TestSetup
     static void setup(){
-        TestDataFactory.createJobApplications(400, 'Saved');     
+        TestDataFactory.createJobApplications(400, 'Saved', 2);     
     }
 
     @isTest
@@ -567,4 +567,62 @@ private class JobApplicationHelperTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void testSetPrimaryContact_PostitiveCase() {
+        List<Job_Application__c> jobApps = [
+            SELECT Id, Primary_Contact__c, Company_Name__c
+            FROM Job_Application__c
+            WHERE Primary_Contact__c = null
+        ];
+
+        Test.startTest();
+        JobApplicationHelper.setPrimaryContact(jobApps);
+        Test.stopTest();
+
+        jobApps = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id IN :jobApps];
+
+        for (Job_Application__c jobApp : jobApps) {
+            Assert.areNotEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should be set');
+        }
+    }
+
+    @isTest
+    static void testSetPrimaryContact_NegativeNoContacts() {
+        // Insert an account with no related contacts
+        Account acc = new Account(Name = 'No Contact Account');
+        insert acc;
+
+        // Insert a job application with that account
+        Job_Application__c jobApp = new Job_Application__c(
+            Name = 'Test Job App Without Contact',
+            Company_Name__c = acc.Id,
+            OwnerId = UserInfo.getUserId(),
+            Job_Application_Status__c = 'Saved'
+        );
+        insert jobApp;
+
+        // Reload the job application after insert to check the Primary Contact field
+        jobApp = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id = :jobApp.Id];
+
+        // Assert that the primary contact is still null
+        Assert.areEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should remain null for an account with no contacts.');
+    }
+
+    @isTest
+    static void testSetPrimaryContact_NegativeNoAccount() {
+        // Insert a job application with no related account
+        Job_Application__c jobApp = new Job_Application__c(
+            Name = 'Test Job App Without Account',
+            Company_Name__c = null,
+            OwnerId = UserInfo.getUserId(),
+            Job_Application_Status__c = 'Saved'
+        );
+        insert jobApp;
+
+        // Reload the job application after insert to check the Primary Contact field
+        jobApp = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id = :jobApp.Id];
+
+        // Assert that the primary contact is still null
+        Assert.areEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should remain null for a job application without an account.');
+    }
 }
