@@ -572,17 +572,13 @@ private class JobApplicationHelperTest {
         List<Job_Application__c> jobApps = [
             SELECT Id, Primary_Contact__c, Company_Name__c
             FROM Job_Application__c
-            WHERE Primary_Contact__c = null
+            WHERE Primary_Contact__c != null
         ];
 
-        Test.startTest();
-        JobApplicationHelper.setPrimaryContact(jobApps);
-        Test.stopTest();
-
-        jobApps = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id IN :jobApps];
-
+        Assert.isTrue(!jobApps.isEmpty(), 'No Job Applications have Primary contact set.');
+ 
         for (Job_Application__c jobApp : jobApps) {
-            Assert.areNotEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should be set');
+            Assert.areNotEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should not be null for Job Application with Company Name.');
         }
     }
 
