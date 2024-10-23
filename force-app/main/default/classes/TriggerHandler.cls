@@ -14,7 +14,8 @@
 public virtual class TriggerHandler {
 
     // Keeps track of how many times the run() method was invoked for each handler
-    private static Map<String, LoopCount> loopCountMap;
+    // Uncomment when needing to use
+    // private static Map<String, LoopCount> loopCountMap;
 
     // List of handler names that should not be executed
     private static Set<String> bypassedHandlers;
@@ -29,7 +30,8 @@ public virtual class TriggerHandler {
     
     // Initialization of static variables
     static {
-      loopCountMap = new Map<String, LoopCount>();
+      // Uncomment when needing to use
+      // loopCountMap = new Map<String, LoopCount>();
       bypassedHandlers = new Set<String>();
     }
     
@@ -52,7 +54,8 @@ public virtual class TriggerHandler {
       }
   
       // Increment the count of how many times this handler has run
-      addToLoopCount();
+      // Uncomment when needing to use
+      // addToLoopCount();
   
       // Dispatch execution to the appropriate handler method based on the trigger context
       switch on this.context {
@@ -157,27 +160,30 @@ public virtual class TriggerHandler {
         } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isUpdate) ||
             (ctx != null && ctx == 'after update')) {
             this.context = TriggerContext.AFTER_UPDATE;
-        } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isDelete) ||
-            (ctx != null && ctx == 'after delete')) {
-            this.context = TriggerContext.AFTER_DELETE;
-        } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isUndelete) ||
-            (ctx != null && ctx == 'after undelete')) {
-            this.context = TriggerContext.AFTER_UNDELETE;
-        }
+        } 
+        // Uncomment when using these Trigger Contexts
+        // else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isDelete) ||
+        //     (ctx != null && ctx == 'after delete')) {
+        //     this.context = TriggerContext.AFTER_DELETE;
+        // } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isUndelete) ||
+        //     (ctx != null && ctx == 'after undelete')) {
+        //     this.context = TriggerContext.AFTER_UNDELETE;
+        // }
     }
     
     // Increment how many times the handler has been run
-    @TestVisible
-    private void addToLoopCount() {
-      String handlerName = getHandlerName();
-      if(TriggerHandler.loopCountMap.containsKey(handlerName)) {
-        Boolean exceeded = TriggerHandler.loopCountMap.get(handlerName).increment();
-        if(exceeded) {
-          Integer max = TriggerHandler.loopCountMap.get(handlerName).max;
-          throw new TriggerHandlerException('Maximum loop count of ' + String.valueOf(max) + ' reached in ' + handlerName);
-        }
-      }
-    }
+    // Uncomment when needing to use
+    // @TestVisible
+    // private void addToLoopCount() {
+    //   String handlerName = getHandlerName();
+    //   if(TriggerHandler.loopCountMap.containsKey(handlerName)) {
+    //     Boolean exceeded = TriggerHandler.loopCountMap.get(handlerName).increment();
+    //     if(exceeded) {
+    //       Integer max = TriggerHandler.loopCountMap.get(handlerName).max;
+    //       throw new TriggerHandlerException('Maximum loop count of ' + String.valueOf(max) + ' reached in ' + handlerName);
+    //     }
+    //   }
+    // }
     
     // Verify that the trigger should execute
     @TestVisible
@@ -221,42 +227,43 @@ public virtual class TriggerHandler {
     
     // LoopCount manages how many times a handler is allowed to run. 
     // This is to prevent infinite loops or excessive operations that could hit governor limits.
-    @TestVisible
-    private class LoopCount {
-      private Integer max;
-      private Integer count;
+    // Uncomment when needing to use
+    // @TestVisible
+    // private class LoopCount {
+    //   private Integer max;
+    //   private Integer count;
     
-      public LoopCount() {
-        this.max = 5;
-        this.count = 0;
-      }
+    //   public LoopCount() {
+    //     this.max = 5;
+    //     this.count = 0;
+    //   }
     
-      public LoopCount(Integer max) {
-        this.max = max;
-        this.count = 0;
-      }
+    //   public LoopCount(Integer max) {
+    //     this.max = max;
+    //     this.count = 0;
+    //   }
     
-      public Boolean increment() {
-        this.count++;
-        return this.exceeded();
-      }
+    //   public Boolean increment() {
+    //     this.count++;
+    //     return this.exceeded();
+    //   }
     
-      public Boolean exceeded() {
-        return this.max >= 0 && this.count > this.max;
-      }
+    //   public Boolean exceeded() {
+    //     return this.max >= 0 && this.count > this.max;
+    //   }
     
-      public Integer getMax() {
-        return this.max;
-      }
+    //   public Integer getMax() {
+    //     return this.max;
+    //   }
     
-      public Integer getCount() {
-        return this.count;
-      }
+    //   public Integer getCount() {
+    //     return this.count;
+    //   }
     
-      public void setMax(Integer max) {
-        this.max = max;
-      }
-    }
+    //   public void setMax(Integer max) {
+    //     this.max = max;
+    //   }
+    // }
     
     // This enum represents possible trigger contexts, making it easier to identify the current operation.
     @TestVisible
@@ -269,4 +276,4 @@ public virtual class TriggerHandler {
     // Custom exception to handle specific errors related to the trigger handler.
     public class TriggerHandlerException extends Exception {}
     
-    }
+}
