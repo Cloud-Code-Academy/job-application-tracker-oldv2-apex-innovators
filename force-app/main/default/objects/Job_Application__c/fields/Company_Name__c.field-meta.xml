@@ -11,4 +11,8 @@
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
+<<<<<<< HEAD
 </CustomField>
+=======
+</CustomField>
+>>>>>>> 3785ccf8389048d03926c6990b1e1a27f071e9a5
