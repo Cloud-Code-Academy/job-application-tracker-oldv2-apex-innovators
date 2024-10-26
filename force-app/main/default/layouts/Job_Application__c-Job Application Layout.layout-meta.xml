@@ -10,6 +10,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
@@ -23,6 +24,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Date_Applied__c</field>
+
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -70,15 +72,13 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
+
                 <field>Date_Posted__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Job_Source__c</field>
+
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
