@@ -1,4 +1,5 @@
-import { createElement } from 'lwc';
+import { createElement } from '@lwc/engine-dom';
+
 import JobList from 'c/jobList';
 
 describe('c-job-list', () => {

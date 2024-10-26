@@ -1,63 +1,108 @@
 import { LightningElement, api, track } from 'lwc';
 
 export default class JobTable extends LightningElement {
-    @api jobs = []; // Jobs passed from parent component
-    @api currentPage = 1; // Current page number passed from parent
-    @api totalPages = 1; // Total pages passed from parent
+    @api jobs = [];
+    @api totalPages = 1;
+    _currentPage = 1;
+
+    @api
+    get currentPage() {
+        return this._currentPage;
+    }
+    
+    set currentPage(value) {
+        this._currentPage = Number(value);
+    }
+
+    get isPreviousDisabled() {
+        return this.currentPage === 1;
+    }
+
+    get isNextDisabled() {
+        return this.currentPage === this.totalPages;
+    }
 
     columns = [
         { label: 'Job Title', fieldName: 'title', sortable: true },
         { label: 'Company', fieldName: 'company', sortable: true },
         { label: 'Location', fieldName: 'location', sortable: true },
         { label: 'Salary', fieldName: 'salary', sortable: true },
-        { label: 'Date Posted', fieldName: 'datePosted', sortable: true },
-        { label: 'Action', fieldName: 'action', type: 'button', typeAttributes: { label: 'Save', name: 'save', variant: 'neutral' } }
+        { label: 'Date Posted', fieldName: 'updated', sortable: true },
+        { label: 'Action', type: 'button', typeAttributes: { 
+            label: 'Save', 
+            name: 'save', 
+            variant: 'neutral' 
+        }}
     ];
 
-    // Getter for paginated jobs based on current page and page size
-    get paginatedJobs() {
-        const start = (this.currentPage - 1) * 5; // Assuming 5 jobs per page
-        return this.jobs.slice(start, start + 5);
+    /*handleRowAction(event) {
+        const row = event.detail.row;
+        const actionName = event.detail.action.name;
+        
+        if (actionName === 'save') {
+            // Create a new object without the 'id' property
+            const { id, ...jobToSave } = row;
+            
+            this.dispatchEvent(new CustomEvent('savejob', {
+                detail: jobToSave
+            }));
+        }
+    }*/
+    
+    handleRowAction(event) {
+        const row = event.detail.row;
+        const actionName = event.detail.action.name;
+        
+        if (actionName === 'save') {
+            // Include the ID in the job data
+            const jobToSave = {
+                id: row.id,
+                title: row.title,
+                link: row.link,
+                salary: row.salary,
+                snippet: row.snippet,
+                company: row.company,
+                type: row.type,
+                location: row.location
+            };
+            
+            this.dispatchEvent(new CustomEvent('savejob', {
+                detail: jobToSave
+            }));
+        }
     }
+    
+    handleSave(event) {
+    const jobId = event.detail.row.id; // Get the job ID from the row
+    const selectedJob = this.jobs.find(job => job.id === jobId); // Find the selected job
 
-    // Disable the "Previous" button if on the first page
-    get isPreviousDisabled() {
-        return this.currentPage === 1;
-    }
+    console.log('Selected job:', selectedJob); // Log the selected job
 
-    // Disable the "Next" button if on the last page
-    get isNextDisabled() {
-        return this.currentPage >= this.totalPages;
-    }
-
-    // Example of emitting page change in child component
-handlePageChange(pageNumber) {
-    const pageChangeEvent = new CustomEvent('pagechange', {
-        detail: { pageNumber }
-    });
-    this.dispatchEvent(pageChangeEvent);
+    // Dispatch event to save the job
+    this.dispatchEvent(new CustomEvent('savejob', { detail: selectedJob }));
 }
 
-    // Navigate to the next page
+    get paginatedJobs() {
+        return this.jobs; // Use the full jobs array for the current page
+    }
+
+    handlePageChange(pageNumber) {
+        if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+            this.dispatchEvent(new CustomEvent('pagechange', {
+                detail: { pageNumber }
+            }));
+        }
+    }
+
     handleNextPage() {
-        if (this.currentPage < this.totalPages) {
-            this.currentPage += 1;
-            console.log('Navigating to next page:', this.currentPage);
-            this.dispatchEvent(new CustomEvent('pagechange', { detail: { pageNumber: this.currentPage }}));
+        if (this._currentPage < this.totalPages) {
+            this.handlePageChange(this._currentPage + 1);
         }
     }
 
-    // Navigate to the previous page
     handlePreviousPage() {
-        if (this.currentPage > 1) {
-            this.currentPage -= 1;
-            console.log('Navigating to previous page:', this.currentPage);
-            this.dispatchEvent(new CustomEvent('pagechange', { detail: { pageNumber: this.currentPage }}));
+        if (this._currentPage > 1) {
+            this.handlePageChange(this._currentPage - 1);
         }
-    }
-
-    // Log the jobs passed from the parent component
-    connectedCallback() {
-        console.log('Jobs passed to JobTable:', this.jobs);
     }
 }

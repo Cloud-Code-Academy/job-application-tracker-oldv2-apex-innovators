@@ -31,7 +31,13 @@
             </div>
 
             <template if:true={hasJobs}>
-                <c-job-table jobs={jobs} current-page={currentPage} total-pages={totalPages} onpagechange={handlePageChange}></c-job-table>
+                <c-job-table 
+                    jobs={jobs} 
+                    current-page={currentPage} 
+                    total-pages={totalPages} 
+                    onpagechange={handlePageChange} 
+                    onsavejob={handleSaveJob}>
+                </c-job-table>
             </template>
 
             <template if:false={hasJobs}>
