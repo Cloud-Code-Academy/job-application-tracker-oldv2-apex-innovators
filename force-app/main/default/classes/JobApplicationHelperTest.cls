@@ -593,7 +593,6 @@ private class JobApplicationHelperTest {
 
         // Insert a job application with that account
         Job_Application__c jobApp = new Job_Application__c(
-            Name = 'Test Job App Without Contact',
             Company_Name__c = acc.Id,
             OwnerId = UserInfo.getUserId(),
             Job_Application_Status__c = 'Saved'
@@ -614,7 +613,6 @@ private class JobApplicationHelperTest {
     static void testSetPrimaryContact_NegativeNoAccount() {
         // Insert a job application with no related account
         Job_Application__c jobApp = new Job_Application__c(
-            Name = 'Test Job App Without Account',
             Company_Name__c = null,
             OwnerId = UserInfo.getUserId(),
             Job_Application_Status__c = 'Saved'

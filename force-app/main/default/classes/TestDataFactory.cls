@@ -29,7 +29,6 @@ public class TestDataFactory {
         // Creating Job Applications with initial status
         for (Account acc : accounts) {
             Job_Application__c jobApp = new Job_Application__c(
-                Name = 'Test Job Application for ' + acc.Name,
                 Job_Application_Status__c = initialStatus,
                 Company_Name__c = acc.Id,
                 Primary_Contact__c = null,
@@ -63,7 +62,6 @@ public class TestDataFactory {
         insert contacts;
 
         Job_Application__c jobApp = new Job_Application__c(
-            Name = 'Single Test Job Application',
             Job_Application_Status__c = status,
             Company_Name__c = acc.Id, // Link to the account
             Primary_Contact__c = contacts[0].Id, // Link to the first contact created
