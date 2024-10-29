@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Job_Application__c.Application_Date__c</members>
+		<members>API_Config__c.Jooble_API__c</members>
+		<members>Activity.Application_Status_Snapshot__c</members>
+		<members>Job_Application__c.Company_Name_Text__c</members>
 		<members>Job_Application__c.Company_Name__c</members>
+		<members>Job_Application__c.Date_Applied__c</members>
+		<members>Job_Application__c.Date_Posted__c</members>
 		<members>Job_Application__c.Description__c</members>
 		<members>Job_Application__c.Follow_up_date__c</members>
 		<members>Job_Application__c.Job_Application_Status__c</members>
 		<members>Job_Application__c.Job_Position__c</members>
+		<members>Job_Application__c.Job_Source__c</members>
+		<members>Job_Application__c.JoobleExternalId__c</members>
 		<members>Job_Application__c.Location__c</members>
 		<members>Job_Application__c.Notes__c</members>
 		<members>Job_Application__c.Primary_Contact__c</members>
 		<members>Job_Application__c.Rating__c</members>
 		<members>Job_Application__c.Salary__c</members>
 		<members>Job_Application__c.URL__c</members>
+		<members>Job_Application__c.Work_Location__c</members>
 		<name>CustomField</name>
 	</types>
 	<types>

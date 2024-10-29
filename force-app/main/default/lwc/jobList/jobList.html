@@ -2,30 +2,44 @@
     <div class="custom-card">
         <lightning-card title="Salesforce Jobs" icon-name="action:description">
             <h1 slot="title" class="custom-title">Salesforce Jobs</h1>
-        
-            <!-- Search Form -->
+
             <div class="slds-m-around_medium">
-                <lightning-input label="Keywords" placeholder="Enter job keywords..." value={keywords} onchange={handleKeywordChange}></lightning-input>
-                <lightning-input label="Location" placeholder="Enter location..." value={location} onchange={handleLocationChange}></lightning-input>
-                
-                <!-- Search and Reset Buttons -->
-                <lightning-button label="Search Jobs" variant="brand" onclick={handleSearch}></lightning-button>
-                <lightning-button label="Reset" variant="neutral" onclick={handleReset}></lightning-button>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="1.5" padding="around-small">
+                        <lightning-input 
+                            label="Keywords" 
+                            placeholder="Enter job keywords..." 
+                            value={keywords} 
+                            onchange={handleKeywordChange}>
+                        </lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="1.5" padding="around-small">
+                        <lightning-input 
+                            label="Location" 
+                            placeholder="Enter location..." 
+                            value={location} 
+                            onchange={handleLocationChange}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <div class="slds-m-top_small">
+                    <lightning-button label="Search Jobs" variant="brand" onclick={handleSearch}></lightning-button>
+                    <lightning-button label="Reset" variant="neutral" onclick={handleReset} class="slds-m-left_small"></lightning-button>
+                </div>
             </div>
 
-            <!-- Job Results Table -->
             <template if:true={hasJobs}>
-                <div class="slds-scrollable_y" style="height: 300px;">
-                    <lightning-datatable
-                        data={jobs}
-                        hide-checkbox-column="true"
-                        columns={columns}
-                        key-field="id">
-                    </lightning-datatable>
-                </div>
+                <c-job-table 
+                    jobs={jobs} 
+                    current-page={currentPage} 
+                    total-pages={totalPages} 
+                    onpagechange={handlePageChange} 
+                    onsavejob={handleSaveJob}>
+                </c-job-table>
             </template>
 
-            <!-- No Jobs Found Message -->
             <template if:false={hasJobs}>
                 <div class="slds-m-around_medium">
                     <p>No jobs found. Try searching with different keywords or location.</p>
