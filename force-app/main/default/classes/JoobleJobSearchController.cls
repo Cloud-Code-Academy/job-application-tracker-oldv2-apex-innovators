@@ -31,12 +31,12 @@ public with sharing class JoobleJobSearchController {
             
             for (Object obj : jobsList) {
                 Map<String, Object> jobJson = (Map<String, Object>) obj;
-                jobs.add(createJobFromJson(jobJson)); // Map each job JSON to Job object
+                jobs.add(createJobFromJson(jobJson)); 
             }
 
             return new Map<String, Object>{
                 'jobs' => jobs,
-                'totalCount' => totalCount // Return total count for pagination
+                'totalCount' => totalCount 
             };
         } else {
             throw new AuraHandledException('Failed to retrieve jobs: ' + res.getStatusCode());
@@ -51,12 +51,11 @@ public with sharing class JoobleJobSearchController {
         job.location = (String) jobJson.get('location');
         job.snippet = (String) jobJson.get('snippet');
         job.salary = (String) jobJson.get('salary');
-        //job.source = (String) jobJson.get('source');
         job.type = (String) jobJson.get('type');
         job.link = (String) jobJson.get('link');
         job.company = (String) jobJson.get('company');
         
-        String rawDate = (String) jobJson.get('updated'); // Changed to match the correct API field
+        String rawDate = (String) jobJson.get('updated'); 
         if (String.isNotBlank(rawDate)) {
             try {
                 DateTime dt = DateTime.valueOfGmt(rawDate.replace('T', ' '));
@@ -83,40 +82,58 @@ public with sharing class JoobleJobSearchController {
         @AuraEnabled public String id { get; set; }
         }
     
-    @AuraEnabled 
-    public static Id createJobApplication(Job jobApp) {
-        Set<String> existingJoobleExternalIds = new Set<String>();
+        @AuraEnabled
+        public static Id createJobApplication(Job jobApp) {
+            System.debug('Starting createJobApplication');
+            Set<String> existingJoobleExternalIds = new Set<String>();
 
-        for (Job_Application__c job : [SELECT JoobleExternalId__c FROM Job_Application__c]) {
-            existingJoobleExternalIds.add(job.JoobleExternalId__c); 
-        }
-
-        if (existingJoobleExternalIds.contains(jobApp.id)) {
-            throw new AuraHandledException('Job already exists in your history'); // Throw exception if duplicate found
-        }
-
-        try {
-            Job_Application__c newJobApp = new Job_Application__c(
-                Job_Position__c = jobApp.title,
-                URL__c = jobApp.link,
-                Description__c = jobApp.snippet,
-                Location__c = jobApp.location,
-                Date_Posted__c = formatDateString(jobApp.updated),
-                Job_Application_Status__c = 'Saved',
-                Job_Source__c = 'Jooble Job Board',
-                JoobleExternalId__c = jobApp.id 
-            );
-
-            if (String.isNotBlank(jobApp.company)) {
-                newJobApp.Company_Name_Text__c = jobApp.company;
+            for (Job_Application__c job : [SELECT JoobleExternalId__c FROM Job_Application__c]) {
+                existingJoobleExternalIds.add(job.JoobleExternalId__c);
             }
 
-            insert newJobApp;
-            return newJobApp.Id;
-        } catch(Exception e) {
-            throw new AuraHandledException('Error creating job application: ' + e.getMessage());
+            System.debug('Existing JoobleExternalIds: ' + existingJoobleExternalIds);
+
+            if (existingJoobleExternalIds.contains(jobApp.id)) {
+                System.debug('Duplicate job detected with ID: ' + jobApp.id);
+                throw new AuraHandledException('This job is already saved!');
+            }
+
+            try {
+                List<Account> existingAccounts = [SELECT Id FROM Account WHERE Name = :jobApp.company LIMIT 1];
+                Id accountId;
+
+                if (existingAccounts.isEmpty()) {
+                    Account newAccount = new Account(Name = jobApp.company);
+                    insert newAccount;
+                    accountId = newAccount.Id;
+                    System.debug('New account created with ID: ' + accountId);
+                } else {
+                    accountId = existingAccounts[0].Id;
+                    System.debug('Using existing account with ID: ' + accountId);
+                }
+
+                Job_Application__c newJobApp = new Job_Application__c(
+                    Job_Position__c = jobApp.title,
+                    URL__c = jobApp.link,
+                    Description__c = jobApp.snippet,
+                    Location__c = jobApp.location,
+                    Date_Posted__c = formatDateString(jobApp.updated),
+                    Job_Application_Status__c = 'Saved',
+                    Job_Source__c = 'Jooble Job Board',
+                    JoobleExternalId__c = jobApp.id,
+                    Company_Name__c = accountId
+                );
+
+                insert newJobApp;
+                System.debug('Job Application created with ID: ' + newJobApp.Id);
+                return newJobApp.Id;
+
+            } catch(Exception e) {
+                System.debug('Exception caught in createJobApplication: ' + e.getMessage());
+                throw new AuraHandledException('Error creating job application: ' + e.getMessage());
+            }
         }
-    }
+
 
     private static String formatDateString(String dateStr) {
         if (String.isBlank(dateStr)) {
@@ -130,6 +147,6 @@ public with sharing class JoobleJobSearchController {
             return Date.today().format();
         }
     }
-    
-}
+}   
+
 

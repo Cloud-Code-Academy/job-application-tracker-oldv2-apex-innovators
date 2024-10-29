@@ -21,6 +21,5 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
     
     public override void afterInsert() {
         JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap);
-        JobApplicationHelper.createAccountFromCompanyName(newJobAppList);
     }
 }

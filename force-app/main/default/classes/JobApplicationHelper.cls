@@ -155,29 +155,4 @@ public with sharing class JobApplicationHelper {
             }
         }
     }
-
-    public static void createAccountFromCompanyName(List<Job_Application__c> jobApps) {
-        Set<String> companyNamesToCreate = new Set<String>();
-        for (Job_Application__c jobApp : jobApps) {
-            if (jobApp.Company_Name_Text__c != null) {
-                companyNamesToCreate.add(jobApp.Company_Name_Text__c);
-            }
-        }
-
-        Map<String, Account> existingAccounts = new Map<String, Account>();
-        for (Account acc : [SELECT Id, Name FROM Account WHERE Name IN :companyNamesToCreate]) {
-            existingAccounts.put(acc.Name, acc);
-        }
-
-        List<Account> accountsToInsert = new List<Account>();
-        for (String companyName : companyNamesToCreate) {
-            if (!existingAccounts.containsKey(companyName)) {
-                accountsToInsert.add(new Account(Name = companyName));
-            }
-        }
-
-        if (!accountsToInsert.isEmpty()) {
-            insert accountsToInsert;
-        }
-    }
 }
