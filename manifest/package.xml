@@ -29,6 +29,7 @@
 		<members>Activity</members>
 		<members>Address</members>
 		<members>AlternativePaymentMethod</members>
+		<members>API_Config__c</members>
 		<members>ApiAnomalyEventStore</members>
 		<members>AppointmentCategory</members>
 		<members>AppointmentInvitation</members>
@@ -279,6 +280,12 @@
 		<members>WorkTypeGroup</members>
 		<members>WorkTypeGroupMember</members>
 		<name>CustomObject</name>
+	</types>
+
+	<types>
+		<members>Job_Application__c-Job Application</members>
+		<members>Job_Application__c-Job Application Layout</members>
+		<name>Layout</name>
 	</types>
 	<version>60.0</version>
 </Package>
