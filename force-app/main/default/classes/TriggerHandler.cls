@@ -59,16 +59,15 @@ public virtual class TriggerHandler {
   
       // Dispatch execution to the appropriate handler method based on the trigger context
       switch on this.context {
-          // Uncomment when needing these contexts
-          // when BEFORE_INSERT {
-          // this.beforeInsert();
-          // }
-          // when BEFORE_UPDATE {
-          // this.beforeUpdate();
-          // }
-          // when BEFORE_DELETE {
-          // this.beforeDelete();
-          // }
+          when BEFORE_INSERT {
+          this.beforeInsert();
+          }
+          when BEFORE_UPDATE {
+          this.beforeUpdate();
+          }
+          when BEFORE_DELETE {
+          this.beforeDelete();
+          }
           when AFTER_INSERT {
           this.afterInsert();
           }
@@ -149,16 +148,13 @@ public virtual class TriggerHandler {
         if((Trigger.isExecuting && Trigger.isBefore && Trigger.isInsert) ||
             (ctx != null && ctx == 'before insert')) {
             this.context = TriggerContext.BEFORE_INSERT;
-        } 
-        // Uncomment when using these Trigger Contexts
-        // else if((Trigger.isExecuting && Trigger.isBefore && Trigger.isUpdate) ||
-        //     (ctx != null && ctx == 'before update')){
-        //     this.context = TriggerContext.BEFORE_UPDATE;
-        // } else if((Trigger.isExecuting && Trigger.isBefore && Trigger.isDelete) ||
-        //     (ctx != null && ctx == 'before delete')) {
-        //     this.context = TriggerContext.BEFORE_DELETE;
-        // } 
-        else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isInsert) ||
+        } else if((Trigger.isExecuting && Trigger.isBefore && Trigger.isUpdate) ||
+            (ctx != null && ctx == 'before update')){
+            this.context = TriggerContext.BEFORE_UPDATE;
+        } else if((Trigger.isExecuting && Trigger.isBefore && Trigger.isDelete) ||
+            (ctx != null && ctx == 'before delete')) {
+            this.context = TriggerContext.BEFORE_DELETE;
+        } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isInsert) ||
             (ctx != null && ctx == 'after insert')) {
             this.context = TriggerContext.AFTER_INSERT;
         } else if((Trigger.isExecuting && Trigger.isAfter && Trigger.isUpdate) ||

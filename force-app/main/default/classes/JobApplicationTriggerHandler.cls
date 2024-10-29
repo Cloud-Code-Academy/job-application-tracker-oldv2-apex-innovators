@@ -11,17 +11,15 @@ public with sharing class JobApplicationTriggerHandler extends TriggerHandler {
         this.oldJobAppMap = (Map<Id, Job_Application__c>) Trigger.oldMap;
     }
 
+    public override void beforeInsert() {
+        JobApplicationHelper.setPrimaryContact(newJobAppList);
+    }
+
     public override void afterUpdate() {
         JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap); 
     }
     
     public override void afterInsert() {
-        List<Id> jobAppIds = new List<Id>();
-        for(Job_Application__c jobApp : newJobAppList) {
-            jobAppIds.add(jobApp.Id);
-        }
-
-        System.enqueueJob(new SetPrimaryContactQueueable(jobAppIds));
         JobApplicationHelper.processJobApplications(newJobAppList, oldJobAppMap);
     }
 }
