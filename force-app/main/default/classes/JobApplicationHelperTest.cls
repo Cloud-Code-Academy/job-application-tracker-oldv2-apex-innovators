@@ -569,16 +569,19 @@ private class JobApplicationHelperTest {
 
     @isTest
     static void testSetPrimaryContact_PostitiveCase() {
-        List<Job_Application__c> jobApps = [
-            SELECT Id, Primary_Contact__c, Company_Name__c
-            FROM Job_Application__c
-            WHERE Primary_Contact__c != null
-        ];
+        List<Job_Application__c> jobApps = TestDataFactory.createJobApplications(200, 'Saved', 2);
 
-        Assert.isTrue(!jobApps.isEmpty(), 'No Job Applications have Primary contact set.');
- 
         for (Job_Application__c jobApp : jobApps) {
-            Assert.areNotEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should not be null for Job Application with Company Name.');
+            jobApp.Id = null;
+        }
+
+        Test.startTest();
+        insert jobApps;
+        Test.stopTest();
+ 
+        jobApps = [SELECT Id, Primary_Contact__c FROM Job_Application__c WHERE Id IN :jobApps];
+        for (Job_Application__c jobApp : jobApps) {
+            Assert.areNotEqual(null, jobApp.Primary_Contact__c, 'Primary Contact should be set for all job applications.');
         }
     }
 
@@ -595,7 +598,10 @@ private class JobApplicationHelperTest {
             OwnerId = UserInfo.getUserId(),
             Job_Application_Status__c = 'Saved'
         );
+
+        Test.startTest();
         insert jobApp;
+        Test.stopTest();
 
         // Reload the job application after insert to check the Primary Contact field
         jobApp = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id = :jobApp.Id];
@@ -613,7 +619,10 @@ private class JobApplicationHelperTest {
             OwnerId = UserInfo.getUserId(),
             Job_Application_Status__c = 'Saved'
         );
+
+        Test.startTest();
         insert jobApp;
+        Test.stopTest();
 
         // Reload the job application after insert to check the Primary Contact field
         jobApp = [SELECT Primary_Contact__c FROM Job_Application__c WHERE Id = :jobApp.Id];
