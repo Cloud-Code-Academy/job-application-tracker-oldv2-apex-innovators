@@ -1,7 +1,7 @@
 public class EventHelper {
     
     public static void validateNoOverlap(List<Event> newMeetings) {
-        // Convert each new meeting's times to minutes since epoch
+        // convert each new meeting times to minutes
         Map<Id, Map<String, Long>> newMeetingTimesInMinutes = new Map<Id, Map<String, Long>>();
         for (Event meeting : newMeetings) {
             Map<String, Long> times = new Map<String, Long>();
@@ -10,10 +10,10 @@ public class EventHelper {
             newMeetingTimesInMinutes.put(meeting.Id, times);
         }
 
-        // Query existing meetings and convert their times to minutes
+        // query and convert times to minutes
         List<Event> existingMeetings = [SELECT Id, StartDateTime, EndDateTime
                                         FROM Event
-                                        WHERE StartDateTime < :Datetime.now().addDays(30)]; // Adjust range as needed
+                                        WHERE StartDateTime < :Datetime.now().addDays(30)]; 
 
         for (Event newMeeting : newMeetings) {
             Long newStart = newMeetingTimesInMinutes.get(newMeeting.Id).get('start');
@@ -23,18 +23,18 @@ public class EventHelper {
                 Long existingStart = convertToMinutes(existingMeeting.StartDateTime);
                 Long existingEnd = convertToMinutes(existingMeeting.EndDateTime);
                 
-                // Check for overlap based on minutes 
+                // check for overlap based on minutes 
                 if ((newStart < existingEnd) && (newEnd > existingStart)) {
-                    newMeeting.addError('This interview meeting overlaps with an existing meeting.');
+                    newMeeting.addError('This interview meeting overlaps with an existing meeting. Please check your Calendar!');
                     break;
                 }
             }
         }
     }
     
-    // Helper method to convert DateTime to minutes since Unix Epoch
+    // Helper method to convert DateTime to minutes 
     public static Long convertToMinutes(Datetime dt) {
-        Long epochMillis = dt.getTime(); // Milliseconds since Epoch
-        return epochMillis / 60000; // Convert to minutes
+        Long epochMillis = dt.getTime(); 
+        return epochMillis / 60000; 
     }
 }
