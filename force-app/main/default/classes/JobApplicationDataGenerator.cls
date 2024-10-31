@@ -5,8 +5,14 @@ public class JobApplicationDataGenerator {
         List<Account> companies = new List<Account>();
 
         // Define company names and locations
-        List<String> companyNames = new List<String>{'Accenture', 'Capgemini', 'Deloitte', 'PwC', 'IBM', 'KPMG', 'Cognizant', 'Infosys', 'TCS', 'Salesforce'};
-        List<String> locations = new List<String>{'Austin, TX', 'San Francisco, CA', 'New York, NY', 'Chicago, IL', 'Seattle, WA'};
+        List<String> companyNames = new List<String>{
+            'Accenture', 'Capgemini', 'Deloitte', 'PwC', 'IBM', 
+            'KPMG', 'Cognizant', 'Infosys', 'TCS', 'Salesforce'
+        };
+        List<String> locations = new List<String>{
+            'Austin, TX', 'San Francisco, CA', 'New York, NY', 
+            'Chicago, IL', 'Seattle, WA'
+        };
 
         // Create Account records with these names and random locations
         for (String name : companyNames) {
@@ -18,7 +24,7 @@ public class JobApplicationDataGenerator {
         }
 
         insert companies;
-        return companies;
+        return companies; // Return the created companies
     }
 
     // Method to create sample Contact records related to companies
@@ -36,7 +42,7 @@ public class JobApplicationDataGenerator {
         }
 
         insert contacts;
-        return contacts;
+        return contacts; // Return the created contacts
     }
 
     // Method to create sample Job Application records
@@ -77,13 +83,13 @@ public class JobApplicationDataGenerator {
             }
         }
 
-        insert jobApplications;
+        insert jobApplications; // Insert all job applications
     }
 
     // Method to execute all data creation steps
     public static void runDataSetup() {
-        List<Account> companies = createCompanies();
-        List<Contact> contacts = createContacts(companies);
-        createJobApplications(companies, contacts);
+        List<Account> companies = createCompanies(); // Create companies
+        List<Contact> contacts = createContacts(companies); // Create contacts related to companies
+        createJobApplications(companies, contacts); // Create job applications
     }
 }
