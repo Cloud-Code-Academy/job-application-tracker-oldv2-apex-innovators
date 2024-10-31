@@ -10,7 +10,7 @@
         <layoutColumns>
             <layoutItems>
                 <field>Name</field>
-                <behavior>Readonly</behavior>
+                <behavior>Required</behavior>
             </layoutItems>
             
             <layoutItems>
