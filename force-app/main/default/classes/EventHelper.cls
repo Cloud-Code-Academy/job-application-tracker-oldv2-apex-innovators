@@ -1,7 +1,7 @@
 public class EventHelper {
     
     public static void validateNoOverlap(List<Event> newMeetings) {
-        // convert each new meeting times to minutes
+        // convert each new meeting start and end times to minutes
         Map<Id, Map<String, Long>> newMeetingTimesInMinutes = new Map<Id, Map<String, Long>>();
         for (Event meeting : newMeetings) {
             Map<String, Long> times = new Map<String, Long>();
@@ -10,7 +10,7 @@ public class EventHelper {
             newMeetingTimesInMinutes.put(meeting.Id, times);
         }
 
-        // query and convert times to minutes
+        // query and convert start and end times to minutes
         List<Event> existingMeetings = [SELECT Id, StartDateTime, EndDateTime
                                         FROM Event
                                         WHERE StartDateTime < :Datetime.now().addDays(30)]; 
