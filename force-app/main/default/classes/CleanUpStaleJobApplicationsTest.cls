@@ -6,7 +6,7 @@ private class CleanUpStaleJobApplicationsTest {
         List<Job_Application__c> applications = new List<Job_Application__c>();
         for (Integer i = 0; i < 5; i++) {
             applications.add(new Job_Application__c(
-                Job_Application_Status__c = 'Pending', // Change if necessary
+                Job_Application_Status__c = 'Saved', // Change if necessary
                 Follow_up_date__c = System.today().addDays(-31) // Stale application
             ));
         }
