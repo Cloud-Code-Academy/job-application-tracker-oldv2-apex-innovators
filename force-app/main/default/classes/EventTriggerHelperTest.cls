@@ -21,9 +21,9 @@ private class EventTriggerHelperTest {
         try {
             EventHelper.validateNoOverlap(new List<Event>{newMeeting});
             insert newMeeting;
-            System.assert(true, 'No overlap detected as expected');
+            Assert.areEqual(true, true, 'No overlap detected as expected');
         } catch(Exception e) {
-            System.assert(false, 'Unexpected error occurred');
+            Assert.areEqual(false, true, 'Unexpected error occurred: ' + e.getMessage());
         }
         Test.stopTest();
     }
@@ -48,10 +48,10 @@ private class EventTriggerHelperTest {
         try {
             EventHelper.validateNoOverlap(new List<Event>{overlappingMeeting});
             insert overlappingMeeting;
-            System.assert(false, 'Expected an error due to overlap');
+            Assert.areEqual(false, true, 'Expected an error due to overlap');
         } catch(DmlException e) {
-            System.assert(e.getMessage().contains('overlaps with an existing meeting'), 
-                         'Expected overlap error message');
+            Assert.isTrue(e.getMessage().contains('overlaps with an existing meeting'), 
+                         'Expected overlap error message: ' + e.getMessage());
         }
         Test.stopTest();
     }
@@ -82,10 +82,10 @@ private class EventTriggerHelperTest {
         try {
             EventHelper.validateNoOverlap(new List<Event>{newMeeting1, newMeeting2});
             insert new List<Event>{newMeeting1, newMeeting2};
-            System.assert(false, 'Expected an error due to overlap');
+            Assert.areEqual(false, true, 'Expected an error due to overlap');
         } catch(DmlException e) {
-            System.assert(e.getMessage().contains('overlaps with an existing meeting'), 
-                         'Expected overlap error message');
+            Assert.isTrue(e.getMessage().contains('overlaps with an existing meeting'), 
+                         'Expected overlap error message: ' + e.getMessage());
         }
         Test.stopTest();
     }
@@ -95,6 +95,33 @@ private class EventTriggerHelperTest {
         Datetime testDate = Datetime.newInstance(2023, 1, 1, 12, 0, 0);
         Long minutes = EventHelper.convertToMinutes(testDate);
         Assert.areNotEqual(null, minutes, 'Minutes should not be null');
-        System.assert(minutes > 0, 'Minutes should be positive');
+        Assert.isTrue(minutes > 0, 'Minutes should be positive');
+    }
+
+    @isTest
+    static void testSendUpcomingEventEmails() {
+        // Setup test data
+        Event meeting = new Event(
+            Subject = 'Test Meeting',
+            StartDateTime = Datetime.now().addHours(1),
+            EndDateTime = Datetime.now().addHours(2),
+            WhatId = [SELECT Id FROM Job_Application__c LIMIT 1].Id // Assuming there is at least one Job Application
+        );
+        insert meeting;
+
+        Test.startTest();
+        // Call the method to send emails
+        EventHelper.sendUpcomingEventEmails(new List<Event>{meeting});
+        Test.stopTest();
+
+        // Verify that emails were sent
+        List<Messaging.SingleEmailMessage> sentEmails = [SELECT Id FROM EmailMessage WHERE Subject = 'Upcoming Interview Reminder'];
+        Assert.isTrue(!sentEmails.isEmpty(), 'Expected emails to be sent');
+        
+        // Check if the expected email fields are set correctly (additional assertions)
+        for (Messaging.SingleEmailMessage email : sentEmails) {
+            Assert.areEqual('Upcoming Interview Reminder', email.Subject, 'Email subject does not match');
+            // Add more assertions as necessary to validate the content of the email
+        }
     }
 }
