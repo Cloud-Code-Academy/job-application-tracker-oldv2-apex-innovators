@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Job Table" icon-name="action:table">
+        <template if:true={jobs}>
+            <lightning-datatable
+                key-field="id"
+                data={jobs}
+                columns={columns}
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+
+            <!-- Add pagination controls -->
+            <div class="slds-grid slds-grid_align-center slds-m-top_medium">
+                <lightning-button-group>
+                    <lightning-button 
+                        label="Previous"
+                        onclick={handlePreviousPage}
+                        disabled={isPreviousDisabled}>
+                    </lightning-button>
+                    <lightning-button 
+                        label="Next"
+                        onclick={handleNextPage}
+                        disabled={isNextDisabled}>
+                    </lightning-button>
+                </lightning-button-group>
+                <div class="slds-m-left_small">
+                    Page {currentPage} of {totalPages}
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

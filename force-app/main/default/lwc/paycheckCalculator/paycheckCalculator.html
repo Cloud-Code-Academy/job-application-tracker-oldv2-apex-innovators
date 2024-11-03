@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Paycheck Calculator">
+        <div class="slds-var-p-horizontal_small">
+            <!-- Salary Input -->
+            <lightning-input 
+                label="Enter/Update Annual Salary" 
+                type="number" 
+                value={annualSalary} 
+                onchange={handleChange}>
+            </lightning-input>
+        </div>
+
+        <!-- Salary Breakdown Section -->
+        <div class="slds-var-p-top_small slds-box slds-theme_default">
+            <h2 class="slds-text-align_center" style="font-size: 2rem; font-weight: bold;">Salary Breakdown</h2>
+
+            <lightning-datatable
+                data={salaryBreakdown}
+                hide-checkbox-column="true"
+                columns={salaryColumns}
+                key-field="label">
+            </lightning-datatable>
+        </div>
+
+        <!-- Tax Information Section with Info Tooltip -->
+        <div class="slds-var-p-top_medium slds-box slds-theme_default">
+            <h2 class="slds-text-align_center" style="font-size: 1.5rem; font-weight: bold;">Tax Information</h2>
+            <p class="slds-text-align_center slds-m-bottom_medium" style="font-size: 0.9rem; font-style: italic;">
+                (Assuming Single Filing Status)
+            </p>
+            <lightning-datatable
+                data={taxBreakdown}
+                hide-checkbox-column="true"
+                columns={taxColumns}
+                key-field="label">
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

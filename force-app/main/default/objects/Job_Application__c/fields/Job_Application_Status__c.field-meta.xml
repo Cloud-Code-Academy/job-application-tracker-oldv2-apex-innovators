@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomField xmlns="https://soap.sforce.com/2006/04/metadata">
     <fullName>Job_Application_Status__c</fullName>
+    <businessStatus>Active</businessStatus>
     <externalId>false</externalId>
     <label>Job Application Status</label>
-    <required>false</required>
+    <required>true</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -12,34 +13,75 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Saved</fullName>
+                <default>false</default>
+                <label>Saved</label>
+            </value>
+            <value>
+                <fullName>Applying</fullName>
+                <default>false</default>
+                <label>Applying</label>
+            </value>
+            <value>
+                <fullName>Applied</fullName>
+                <default>false</default>
+                <label>Applied</label>
+            </value>
+            <value>
+                <fullName>Interviewing</fullName>
+                <default>false</default>
+                <label>Interviewing</label>
+            </value>
+            <value>
+                <fullName>Negotiating</fullName>
+                <default>false</default>
+                <label>Negotiating</label>
+            </value>
+            <value>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+                <label>Accepted</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Hired</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Hired</label>
+            </value>
+            <value>
+                <fullName>Interview</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Interview</label>
+            </value>
+            <value>
+                <fullName>Offer Made</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Offer Made</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rejected</label>
+            </value>
+            <value>
                 <fullName>Submitted</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Submitted</label>
             </value>
             <value>
                 <fullName>Under Review</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Under Review</label>
-            </value>
-            <value>
-                <fullName>Interview</fullName>
-                <default>false</default>
-                <label>Interview</label>
-            </value>
-            <value>
-                <fullName>Rejected</fullName>
-                <default>false</default>
-                <label>Rejected</label>
-            </value>
-            <value>
-                <fullName>Offer Made</fullName>
-                <default>false</default>
-                <label>Offer Made</label>
-            </value>
-            <value>
-                <fullName>Hired</fullName>
-                <default>false</default>
-                <label>Hired</label>
             </value>
         </valueSetDefinition>
     </valueSet>
