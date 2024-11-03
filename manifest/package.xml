@@ -291,6 +291,7 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Event-Event Layout</members>
 		<members>Job_Application__c-Job Application</members>
 		<members>Job_Application__c-Job Application Layout</members>
 		<name>Layout</name>
