@@ -1,0 +1,24 @@
+.slds-scrollable_y {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.custom-card {
+    --sds-c-card-heading-font-weight: bold;
+}
+
+.custom-title {
+    font-size: 40px;
+    line-height: 1.25;
+}
+
+table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.slds-table th, .slds-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
