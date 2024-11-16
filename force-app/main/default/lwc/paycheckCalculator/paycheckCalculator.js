@@ -8,10 +8,10 @@ export default class PaycheckCalculator extends LightningElement {
     monthlyNetSalary = 0;
     biWeeklyNetSalary = 0;
 
-    @track federalIncomeTax = 0;
-    @track socialSecurityTax = 0;
-    @track medicareWithholding = 0;
-    @track takeHomePay = 0;
+    federalIncomeTax = 0;
+    socialSecurityTax = 0;
+    medicareWithholding = 0;
+    takeHomePay = 0;
 
     federalTaxBrackets = [
         { limit: 11000, rate: 0.1 },

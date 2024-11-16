@@ -5,15 +5,15 @@ import createJobApplication from '@salesforce/apex/JoobleJobSearchController.cre
 
 
 export default class JobList extends LightningElement {
-    @track keywords = '';
-    @track location = '';
+    keywords = '';
+    location = '';
     @track jobs = [];
-    @track totalPages = 1;
-    @track currentPage = 1;
-    @track pageSize = 10;
-    @track errorMessage = '';
-    @track totalCount = 0;
-    @track selectedJob; // Track the selected job
+    totalPages = 1;
+    currentPage = 1;
+    pageSize = 10;
+    errorMessage = '';
+    totalCount = 0;
+    selectedJob; // Track the selected job
 
     get hasJobs() {
         return this.jobs.length > 0;
